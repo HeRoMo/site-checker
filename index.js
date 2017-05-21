@@ -25,8 +25,9 @@ CDP(async function(client){
   await DOM.enable();
 
   Network.requestWillBeSent((params) => {
-      console.log(params.request.url);
+      // console.log(params.request.id);
   });
+
 
   let index = 0
   await Page.navigate({url: list[index]})
@@ -34,9 +35,22 @@ CDP(async function(client){
   Page.loadEventFired(async (qqq) => {
     console.log(qqq)
     await sleep(delay)
+    DOM.getDocument((err, doc)=>{
+      console.log(doc)
+      DOM.querySelector({
+        nodeId: doc.root.nodeId,
+        selector: 'title'
+      },(err, params) => {
+        console.log(params)
+        DOM.getOuterHTML({nodeId: params.nodeId}).then((html)=>{
+          console.log(html)
+        })
+      })
+    })
     const screenshot = await Page.captureScreenshot({format});
     const buffer = new Buffer(screenshot.data, 'base64');
-    file.writeFile("output_"+index+".png", buffer, 'base64', function(err) {
+    let filename = "output_"+index+".png"
+    file.writeFile(filename, buffer, 'base64', function(err) {
       if (err) {
         console.error(err);
       } else {
