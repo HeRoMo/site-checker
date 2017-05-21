@@ -1,0 +1,16 @@
+{
+  "name": "check_capture",
+  "version": "1.0.0",
+  "description": "check URL and capture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HeRoMo",
+  "license": "ISC",
+  "dependencies": {
+    "chrome-remote-interface": "^0.22.0",
+    "lighthouse": "^2.0.0",
+    "minimist": "^1.2.0"
+  }
+}
