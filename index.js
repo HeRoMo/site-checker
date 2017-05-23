@@ -8,7 +8,6 @@ const list = [
   'https://www.google.co.jp',
   'https://www.amazon.co.jp'
 ]
-const url = 'https://www.yahoo.co.jp'
 const delay = 0;
 const format = 'png'
 
@@ -20,57 +19,31 @@ CDP(async function(client){
   // console.log(client)
   const {DOM, Emulation, Network, Page, Runtime} = client;
 
-  await Network.enable();
-  await Page.enable();
-  await DOM.enable();
+  await Promise.all([
+    Network.enable(),
+    Page.enable(),
+    DOM.enable()
+  ])
 
   Network.requestWillBeSent((params) => {
       // console.log(params.request.id);
   });
 
-
-  let index = 0
-  await Page.navigate({url: list[index]})
-
-  Page.loadEventFired(async (qqq) => {
-    console.log(qqq)
-    await sleep(delay)
-    DOM.getDocument((err, doc)=>{
-      console.log(doc)
-      DOM.querySelector({
-        nodeId: doc.root.nodeId,
-        selector: 'title'
-      },(err, params) => {
-        console.log(params)
-        DOM.getOuterHTML({nodeId: params.nodeId}).then((html)=>{
-          console.log(html)
-        })
-      })
-    })
-    const screenshot = await Page.captureScreenshot({format});
-    const buffer = new Buffer(screenshot.data, 'base64');
-    let filename = "output_"+index+".png"
-    file.writeFile(filename, buffer, 'base64', function(err) {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('Screenshot saved');
-      }
-    });
-
+  let index = 0;
+  for (let url of list){
     index++
-    if(index < list.length){
-      await Page.navigate({url: list[index]})
-    } else {
-      await client.close(); // ??
-    }
-  })
+    await Page.navigate({url})
+    await Page.loadEventFired();
+    await sleep(delay);
+    const {data} = await Page.captureScreenshot({format});
+    let filename = "output_"+index+".png"
+    file.writeFileSync(filename, Buffer.from(data, 'base64'));
+  }
 
   process.on('SIGINT', () => {
     console.log(' Close CDP')
     client.close(); // ??
   });
-
 
 }).on('error', err => {
   console.log('Cannot connect to Chrome')
