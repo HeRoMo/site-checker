@@ -36,11 +36,7 @@ CDP(async function(client){
   });
 
   Network.responseReceived((res) => {
-    if (res.type == 'Document' &&
-        res.response.requestHeaders &&
-        !res.response.requestHeaders.Referer &&
-        !res.response.requestHeaders.referer &&
-        output[res.requestId] ) {
+    if (res.type == 'Document' && output[res.requestId] ) {
       console.log("Resp: %s %s", res.requestId ,res.response.status, res.response.url)
       output[res.requestId]['status']=res.response.status
       output[res.requestId]['responseUrl']=res.response.url
@@ -66,7 +62,7 @@ CDP(async function(client){
       await Page.loadEventFired();
       await sleep(delay);
       const {data} = await Page.captureScreenshot({format});
-      let filename = "output_"+index+".png"
+      let filename = "output_"+target.id+".png"
       file.writeFileSync(filename, Buffer.from(data, 'base64'));
     } catch(e) {
       console.log(e)
