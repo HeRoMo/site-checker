@@ -40,7 +40,7 @@ function checkAndCapture(list, options = defaultOptions){
         Network.enable(),
         Page.enable(),
         DOM.enable(),
-        Emulation.setDeviceMetricsOverride(deviceMetrics),
+        // Emulation.setDeviceMetricsOverride(deviceMetrics),
         Emulation.setVisibleSize({width: options.viewportWidth, height: options.viewportHeight})
       ])
       await Network.clearBrowserCache()
@@ -74,7 +74,7 @@ function checkAndCapture(list, options = defaultOptions){
         console.log(output)
       });
 
-      for (const target of list) {
+      for (let target of list) {
         let url = target.url
         try {
           let {frameId} = await Page.navigate({url})
@@ -96,7 +96,7 @@ function checkAndCapture(list, options = defaultOptions){
           await sleep(options.delay);
           if(target.status == 200){
             const {data} = await Page.captureScreenshot({format: options.format, fromSurface: true});
-            let filename = "capture_"+target.id+".png"
+            const filename = "capture_"+target.id+".png"
             file.writeFileSync(filename, Buffer.from(data, 'base64'));
             target.capture = filename
           }
