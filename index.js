@@ -3,6 +3,7 @@
 const CDP = require('chrome-remote-interface');
 const file = require('fs');
 const readCsv = require('./lib/read_csv.js');
+const launchChrome = require('./lib/chrome_launcher.js');
 
 const verbose = false;
 
@@ -12,8 +13,8 @@ function sleep(sec) {
 
 const defaultOptions = {
   format: 'png',
-  viewportWidth: 1280,
-  viewportHeight: 800,
+  viewportWidth: 1440,
+  viewportHeight: 900,
   delay: 0,
   userAgent: null,
   fullPage: false
@@ -94,7 +95,7 @@ function checkAndCapture(list, options = defaultOptions){
           }
           await sleep(options.delay);
           if(target.status == 200){
-            const {data} = await Page.captureScreenshot({format: options.format});
+            const {data} = await Page.captureScreenshot({format: options.format, fromSurface: true});
             let filename = "capture_"+target.id+".png"
             file.writeFileSync(filename, Buffer.from(data, 'base64'));
             target.capture = filename
@@ -113,8 +114,11 @@ function checkAndCapture(list, options = defaultOptions){
 }
 
 async function exec(filename){
+  const launcher = await launchChrome();
   const list = await readCsv(filename);
-  return await checkAndCapture(list)
+  const out = await checkAndCapture(list)
+  launcher.kill()
+  return out
 }
 
 exec('url-test.csv').then((out)=>{
