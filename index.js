@@ -32,16 +32,17 @@ function checkAndCapture(list, options = defaultOptions){
         screenHeight: options.viewportHeight || defaultOptions.viewportHeight,
         offsetX: 0,
         offsetY: 0,
-        deviceScaleFactor: 0,
+        deviceScaleFactor: 1,
         mobile: false,
-        fitWindow: true,
+        fitWindow: false,
       }
       await Promise.all([
         Network.enable(),
         Page.enable(),
         DOM.enable(),
-        // Emulation.setDeviceMetricsOverride(deviceMetrics),
-        Emulation.setVisibleSize({width: options.viewportWidth, height: options.viewportHeight})
+        Emulation.setDeviceMetricsOverride(deviceMetrics),
+        Emulation.setPageScaleFactor({pageScaleFactor:1}),
+        Emulation.setVisibleSize({width: deviceMetrics.width, height: deviceMetrics.height})
       ])
       await Network.clearBrowserCache()
 
