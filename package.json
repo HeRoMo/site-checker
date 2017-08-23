@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "check URL and capture",
   "main": "index.js",
+  "bin": {
+    "check-caputure": "bin/cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +14,8 @@
   "dependencies": {
     "chrome-remote-interface": "^0.24.0",
     "csv": "^1.1.1",
+    "csv-parse": "^1.2.1",
     "lighthouse": "^2.3.0",
-    "minimist": "^1.2.0"
+    "yargs": "^8.0.2"
   }
 }

@@ -2,8 +2,6 @@
 
 const CDP = require('chrome-remote-interface');
 const file = require('fs');
-const readCsv = require('./lib/read_csv.js');
-const launchChrome = require('./lib/chrome_launcher.js');
 
 const verbose = false;
 
@@ -114,14 +112,4 @@ function checkAndCapture(list, options = defaultOptions){
   })
 }
 
-async function exec(filename){
-  const launcher = await launchChrome();
-  const list = await readCsv(filename);
-  const out = await checkAndCapture(list)
-  launcher.kill()
-  return out
-}
-
-exec('url-test.csv').then((out)=>{
-  console.log(out)
-})
+module.exports = checkAndCapture;
