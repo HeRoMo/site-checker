@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HeRoMo",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chrome-remote-interface": "^0.24.0",
     "csv": "^1.1.1",
