@@ -11,6 +11,11 @@
   },
   "author": "HeRoMo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HeRoMo/site-checker.git"
+  },
+  "homepage": "https://github.com/HeRoMo/site-checker",
   "dependencies": {
     "chrome-remote-interface": "^0.24.0",
     "csv": "^1.1.1",
