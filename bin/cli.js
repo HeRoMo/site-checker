@@ -30,13 +30,10 @@ const argv = require('yargs')
   .argv
 
 const readCsv = require('../lib/read_csv.js');
-const launchChrome = require('../lib/chrome_launcher.js');
 const checkAndCapture = require('../index.js');
 async function exec(filename){
-  const launcher = await launchChrome();
   const list = await readCsv(filename);
   const out = await checkAndCapture(list)
-  launcher.kill()
   return out
 }
 
@@ -46,15 +43,17 @@ if(!!argv.list){
     console.log(out)
   })
 } else if(!!argv.url){
-  const e = async function(){
-    const url = argv.url
-    console.log('target URL: %s', url)
-    const launcher = await launchChrome();
-    const list = [{ id: 0, url }]
-    const out = await checkAndCapture(list)
-    launcher.kill()
+  try{
+    (async function(){
+      const url = argv.url
+      console.log('target URL: %s', url)
+      const list = [{ id: 0, url }]
+      const out = await checkAndCapture(list)
+      console.log(out)
+    })();
+  } catch(e){
+    console.log(e)
   }
-  e()
 } else {
   console.log('-l or -u option is required.')
   process.exit(1);
