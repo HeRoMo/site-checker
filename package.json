@@ -17,10 +17,9 @@
   },
   "homepage": "https://github.com/HeRoMo/site-checker",
   "dependencies": {
-    "chrome-remote-interface": "^0.24.0",
     "csv": "^1.1.1",
     "csv-parse": "^1.2.1",
-    "lighthouse": "^2.3.0",
+    "puppeteer": "^0.10.1",
     "yargs": "^8.0.2"
   }
 }
