@@ -6,7 +6,15 @@ const fs = require('fs')
 const argv = require('yargs')
   .option('u', {
     alias: 'url',
-    describe: 'set the url which is checked and captured'
+    describe: 'set the url which is checked and captured',
+    coerce: function(arg){
+      if(/^https?:\/\//i.test(arg)){
+        return arg;
+      } else {
+        console.log('Please set valid url')
+        process.exit(1);
+      }
+    }
   })
   .option('l',{
     alias: 'list',
