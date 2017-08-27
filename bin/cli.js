@@ -45,6 +45,10 @@ const argv = require('yargs')
       }
     }
   })
+  .option('f', {
+    alias: 'fullpage',
+    describe: 'capture whole page'
+  })
   .help('h')
   .alias('h', 'help')
   .argv
@@ -55,6 +59,7 @@ const checkAndCapture = require('../index.js');
 
 const option = {}
 if(!!argv.device) option['device'] = argv.device;
+if(!!argv.fullpage) option['fullPage'] = true;
 if(!!argv.list){
   console.log('target URL List: %s', argv.list);
   (async () => {

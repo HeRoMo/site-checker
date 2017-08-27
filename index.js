@@ -29,7 +29,7 @@ async function checkAndCapture(list, opts){
       target.status = response.status
       if(response.ok){
         const filename = `capture_${target.id}.png`
-        await page.screenshot({ path: filename });
+        await page.screenshot({ path: filename, fullPage: options.fullPage });
         target.capture = filename
       }
     }
