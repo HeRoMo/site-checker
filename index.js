@@ -1,5 +1,6 @@
 "use strict";
 const puppeteer = require('puppeteer');
+const devices = require('puppeteer/DeviceDescriptors');
 
 const defaultOptions = {
   format: 'png',
@@ -9,14 +10,22 @@ const defaultOptions = {
   userAgent: null,
   fullPage: false
 }
+Object.freeze(defaultOptions)
 
-async function checkAndCapture(list, options = defaultOptions){
+async function checkAndCapture(list, opts){
+  const options = Object.assign({}, defaultOptions)
+  Object.assign(options, opts)
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.setViewport({
-    width: options.viewportWidth,
-    height: options.viewportHeight
-  })
+  if(!!options['device']){
+    console.log('Emulate: %s', options['device'])
+    await page.emulate(devices[options['device']])
+  } else {
+    await page.setViewport({
+      width: options.viewportWidth,
+      height: options.viewportHeight
+    })
+  }
   try {
     for (let target of list) {
       const response = await page.goto(target.url);

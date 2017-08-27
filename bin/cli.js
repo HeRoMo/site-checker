@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const puppeteer = require('puppeteer');
+const devices = require('puppeteer/DeviceDescriptors');
 const fs = require('fs')
 const argv = require('yargs')
   .option('u', {
@@ -19,27 +21,38 @@ const argv = require('yargs')
       }
     }
   })
-  // .option('f', {
-  //   alias: 'format',
-  //   describe: 'screen shot file format.',
-  //   default: 'png',
-  //   choices: ['png', 'jpg']
-  // })
+  .option('d', {
+    alias: 'device',
+    describe: 'emulate device name',
+    type: 'string',
+    coerce: function(arg){
+      if(devices[arg]){
+        return arg
+      } else {
+        console.log('avarable devices: ')
+        for(const d of devices) console.log('\t"%s"', d.name);
+        process.exit(1);
+      }
+    }
+  })
   .help('h')
   .alias('h', 'help')
   .argv
 
 const readCsv = require('../lib/read_csv.js');
 const checkAndCapture = require('../index.js');
-async function exec(filename){
+async function exec(filename, option){
   const list = await readCsv(filename);
-  const out = await checkAndCapture(list)
+  const out = await checkAndCapture(list, option)
   return out
 }
 
+const option = {}
+if(!!argv.device) option['device'] = argv.device;
+
 if(!!argv.list){
   console.log('')
-  exec(argv.list).then((out)=>{
+  exec(argv.list, option).then((out)=>{
     console.log(out)
   })
 } else if(!!argv.url){
@@ -48,7 +61,7 @@ if(!!argv.list){
       const url = argv.url
       console.log('target URL: %s', url)
       const list = [{ id: 0, url }]
-      const out = await checkAndCapture(list)
+      const out = await checkAndCapture(list, option)
       console.log(out)
     })();
   } catch(e){
