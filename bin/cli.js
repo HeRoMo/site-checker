@@ -3,6 +3,8 @@
 const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
 const fs = require('fs')
+
+/* Parsing options */
 const argv = require('yargs')
   .option('u', {
     alias: 'url',
@@ -47,34 +49,39 @@ const argv = require('yargs')
   .alias('h', 'help')
   .argv
 
+/* Main */
 const readCsv = require('../lib/read_csv.js');
 const checkAndCapture = require('../index.js');
-async function exec(filename, option){
-  const list = await readCsv(filename);
-  const out = await checkAndCapture(list, option)
-  return out
-}
 
 const option = {}
 if(!!argv.device) option['device'] = argv.device;
-
 if(!!argv.list){
-  console.log('')
-  exec(argv.list, option).then((out)=>{
+  console.log('target URL List: %s', argv.list);
+  (async () => {
+    const list = await readCsv(argv.list);
+    const out = await checkAndCapture(list, option)
+    return out
+  })()
+  .then((out)=>{
     console.log(out)
   })
+  .catch((error)=>{
+    console.log(error)
+  })
 } else if(!!argv.url){
-  try{
-    (async function(){
-      const url = argv.url
-      console.log('target URL: %s', url)
-      const list = [{ id: 0, url }]
-      const out = await checkAndCapture(list, option)
-      console.log(out)
-    })();
-  } catch(e){
-    console.log(e)
-  }
+  (async () => {
+    const url = argv.url
+    console.log('target URL: %s', url)
+    const list = [{ id: 0, url }]
+    const out = await checkAndCapture(list, option)
+    return out
+  })()
+  .then((out)=>{
+    console.log(out)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
 } else {
   console.log('-l or -u option is required.')
   process.exit(1);
