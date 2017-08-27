@@ -3,11 +3,8 @@ const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
 
 const defaultOptions = {
-  format: 'png',
   viewportWidth: 1440,
   viewportHeight: 900,
-  delay: 0,
-  userAgent: null,
   fullPage: false
 }
 Object.freeze(defaultOptions)
