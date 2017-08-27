@@ -2,7 +2,8 @@
 
 const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 
 /* Parsing options */
 const argv = require('yargs')
@@ -29,6 +30,14 @@ const argv = require('yargs')
         console.error('Not Exists')
         process.exit(1);
       }
+    }
+  })
+  .option('o', {
+    alias: 'output',
+    describe: 'set output dir name',
+    type: 'string',
+    coerec: function(arg){
+      return path.resolve(arg);
     }
   })
   .option('d', {
@@ -58,12 +67,17 @@ const readCsv = require('../lib/read_csv.js');
 const checkAndCapture = require('../index.js');
 
 const option = {}
+if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
 if(!!argv.fullpage) option['fullPage'] = true;
 if(!!argv.list){
   console.log('target URL List: %s', argv.list);
   (async () => {
     const list = await readCsv(argv.list);
+    if(!option.outputDir){
+      const parsedPath = path.parse(path.resolve(argv.list));
+      option.outputDir = `${parsedPath.dir}/${parsedPath.name}`
+    }
     const out = await checkAndCapture(list, option)
     return out
   })()

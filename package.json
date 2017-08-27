@@ -2,7 +2,9 @@
   "name": "site-checker",
   "version": "0.1.0",
   "description": "check URL and capture screenshot",
-  "engines" : { "node" : ">=8.2.0" },
+  "engines": {
+    "node": ">=8.2.0"
+  },
   "main": "index.js",
   "bin": {
     "site-checker": "bin/cli.js"
@@ -20,6 +22,7 @@
   "dependencies": {
     "csv": "^1.1.1",
     "csv-parse": "^1.2.1",
+    "mkdirp": "^0.5.1",
     "puppeteer": "^0.10.1",
     "yargs": "^8.0.2"
   }
