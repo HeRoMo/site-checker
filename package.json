@@ -2,6 +2,7 @@
   "name": "site-checker",
   "version": "0.1.0",
   "description": "check URL and capture screenshot",
+  "engines" : { "node" : ">=8.2.0" },
   "main": "index.js",
   "bin": {
     "site-checker": "bin/cli.js"
