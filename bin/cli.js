@@ -63,7 +63,7 @@ const argv = require('yargs')
   .argv
 
 /* Main */
-const readFile = require('../lib/read_csv.js');
+const readFile = require('../lib/read_file.js');
 const checkAndCapture = require('../index.js');
 
 const option = {}
