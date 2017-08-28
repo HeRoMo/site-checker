@@ -63,7 +63,7 @@ const argv = require('yargs')
   .argv
 
 /* Main */
-const readCsv = require('../lib/read_csv.js');
+const readFile = require('../lib/read_csv.js');
 const checkAndCapture = require('../index.js');
 
 const option = {}
@@ -73,7 +73,7 @@ if(!!argv.fullpage) option['fullPage'] = true;
 if(!!argv.list){
   console.log('target URL List: %s', argv.list);
   (async () => {
-    const list = await readCsv(argv.list);
+    const list = await readFile(argv.list);
     if(!option.outputDir){
       const parsedPath = path.parse(path.resolve(argv.list));
       option.outputDir = `${parsedPath.dir}/${parsedPath.name}`
