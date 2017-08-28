@@ -71,7 +71,7 @@ if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
 if(!!argv.fullpage) option['fullPage'] = true;
 if(!!argv.list){
-  console.log('target URL List: %s', argv.list);
+  console.log('Target URL List: %s', argv.list);
   (async () => {
     const list = await readFile(argv.list);
     if(!option.outputDir){
@@ -83,7 +83,6 @@ if(!!argv.list){
   })()
   .then((out)=>{
     fs.writeFileSync(`${option.outputDir}/result.json`, out)
-    console.log(out)
   })
   .catch((error)=>{
     console.log(error)
@@ -91,8 +90,8 @@ if(!!argv.list){
 } else if(!!argv.url){
   (async () => {
     const url = argv.url
-    console.log('target URL: %s', url)
-    const list = [{ id: 0, url }]
+    console.log('Target URL: %s', url)
+    const list = [{ id: '00000', url }]
     const out = await checkAndCapture(list, option)
     return out
   })()
