@@ -82,7 +82,7 @@ if(!!argv.list){
     return out
   })()
   .then((out)=>{
-    fs.writeFileSync(`${option.outputDir}/result.json`, out)
+    fs.writeFileSync(`${option.outputDir}/result.json`, JSON.stringify(out, null, ' '))
   })
   .catch((error)=>{
     console.log(error)
