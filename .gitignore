@@ -5,3 +5,4 @@ Thumbs.db
 
 *.png
 *.log
+samples/**/*.json
