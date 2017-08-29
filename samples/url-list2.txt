@@ -1,5 +1,5 @@
 # TXT file sample
 https://www.github.com
 https://www.npmjs.com/
-https://www.google.co.jp/
+https://www.google.com/
 https://www.amazon.com/
