@@ -1,0 +1,6 @@
+# CWV file sample
+id,url,memo
+10000,https://github.com, 'git repository service'
+10001,https://www.npmjs.com/, 'npm site'
+10002,https://www.google.co.jp/, 'web search service'
+10003,https://www.amazon.co.jp/, 'EC site'
