@@ -1,0 +1,30 @@
+body {
+  width: 100%;
+}
+.content {
+  width: 80%; margin: 0 auto 0 auto;
+}
+img.capture {
+  height: 100px;
+}
+p.no-image {
+  text-align: center;
+}
+table {
+  background-color: gray;
+}
+thead td {
+  text-align: center;
+}
+td {
+  background-color: white; max-width: 600px;
+}
+td.capture {
+  width: 150px; height: 100px;
+}
+.status {
+  text-align: center; width:60px;
+}
+.title, .url {
+  overflow: scroll; width: 100%;
+}

@@ -40,6 +40,9 @@ const argv = require('yargs')
       return path.resolve(arg);
     }
   })
+  .option('html', {
+    describe: 'output HTML file'
+  })
   .option('d', {
     alias: 'device',
     describe: 'emulate device name',
@@ -65,6 +68,7 @@ const argv = require('yargs')
 /* Main */
 const readFile = require('../lib/read_file.js');
 const checkAndCapture = require('../index.js');
+const json2html = require('../lib/json2html')
 
 const option = {}
 if(!!argv.output) option['outputDir'] = argv.output;
@@ -83,6 +87,8 @@ if(!!argv.list){
   })()
   .then((out)=>{
     fs.writeFileSync(`${option.outputDir}/result.json`, JSON.stringify(out, null, ' '))
+    if(!!argv.html)
+      json2html(`${option.outputDir}/result.json`, option.outputDir)
   })
   .catch((error)=>{
     console.log(error)

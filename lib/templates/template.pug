@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title site-checker
+    style
+      include index.css
+  body
+    div.content
+      h1 Site-Checker Result
+      table
+        thead
+          tr
+            td ID
+            td キャプチャ
+            td.status ステータス
+            td タイトル / URL
+        tbody
+          each site in sites
+            tr
+              td.id(rowspan=2) #{site.id}
+              td.capture(rowspan=2)
+                if (site.status == "200")
+                  img.capture(src=site.filename)
+                else
+                  p.no-image NO IMAGE
+              td.status(rowspan=2) #{site.status}
+              td: div.title #{site.title}
+            tr
+              td
+                div.url: a(href=site.url, target="_blank") #{site.url}
+    script
+      include index.js
