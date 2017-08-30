@@ -5,7 +5,10 @@ body {
   width: 80%; margin: 0 auto 0 auto;
 }
 img.capture {
-  height: 100px;
+  width: 150px;
+  max-height: 200px;
+  object-fit: cover;
+  object-position: top;
 }
 p.no-image {
   text-align: center;

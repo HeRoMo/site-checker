@@ -21,7 +21,8 @@ html
               td.id(rowspan=2) #{site.id}
               td.capture(rowspan=2)
                 if (site.status == "200")
-                  img.capture(src=site.filename)
+                  a(href=site.filename, target='_blank')
+                    img.capture(src=site.filename)
                 else
                   p.no-image NO IMAGE
               td.status(rowspan=2) #{site.status}
