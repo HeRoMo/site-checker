@@ -88,7 +88,7 @@ if(!!argv.list){
   .then((out)=>{
     fs.writeFileSync(`${option.outputDir}/result.json`, JSON.stringify(out, null, ' '))
     if(!!argv.html)
-      json2html(`${option.outputDir}/result.json`, option.outputDir)
+      json2html(`${option.outputDir}/result.json`, option.outputDir, option.device)
   })
   .catch((error)=>{
     console.log(error)
