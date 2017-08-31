@@ -5,3 +5,5 @@ Thumbs.db
 
 *.png
 *.log
+samples/**/*.json
+samples/**/*.html

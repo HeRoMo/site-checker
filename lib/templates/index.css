@@ -1,0 +1,48 @@
+body {
+  width: 100%;
+}
+.container {
+  width: 80%; margin: 0 auto 0 auto;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: baseline;
+}
+header * {
+  width: 50%;
+}
+header .info{
+  text-align: right;
+}
+img.capture {
+  width: 150px;
+  max-height: 200px;
+  object-fit: cover;
+  object-position: top;
+}
+p.no-image {
+  text-align: center;
+}
+table {
+  background-color: gray;
+}
+thead td {
+  text-align: center;
+}
+td {
+  background-color: white; max-width: 600px;
+}
+td.capture {
+  width: 150px; height: 100px;
+}
+.status {
+  text-align: center; width:60px;
+}
+.title, .url {
+  overflow: scroll; width: 100%;
+}
+footer {
+  text-align: center;
+}

@@ -14,6 +14,7 @@ Options:
   -u, --url       set the url which is checked and captured
   -l, --list      set the filepath of URL list.                         [string]
   -o, --output    set output dir name                                   [string]
+  --html          output HTML file
   -d, --device    emulate device name                                   [string]
   -f, --fullpage  capture whole page
   -h, --help      Show help                                            [boolean]
@@ -47,6 +48,8 @@ By using `-l` option, you can check multiple URL at once.
 $ site-checker -l url-list.csv
 ```
 This command creates `url-list` dir, and output screenshot images and `result.json` file in this dir.
+
+When `--html` option is set, the result is also output as an HTML file (index.html).
 
 ## License
 
