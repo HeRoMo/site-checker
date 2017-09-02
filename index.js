@@ -14,7 +14,7 @@ async function checkAndCapture(list, opts){
   const options = Object.assign({}, defaultOptions)
   Object.assign(options, opts)
   const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+  let page = await browser.newPage();
   if(!!options['device']){
     console.log('Emulate: %s', options['device'])
     await page.emulate(devices[options['device']])
@@ -31,9 +31,17 @@ async function checkAndCapture(list, opts){
   }
   try {
     for (let target of list) {
-      const response = await page.goto(target.url);
+      let response = { ok: false }
+      try{
+        response = await page.goto(target.url);
+      } catch(error) {
+        target.status = "ERROR"
+        target.error_message = error.toString();
+        continue;
+      }
       target.status = response.status
       target.title = await page.title();
+      target.reponse_url = response.url;
       if(response.ok){
         const filename = `capture_${target.id}.png`
         const filepath = `${outputDir}/${filename}`
@@ -42,8 +50,8 @@ async function checkAndCapture(list, opts){
         target.filename = filename
       }
     }
-  } catch(e){
-    console.log(e)
+  } catch(error) {
+    throw error;
   }
   browser.close();
   return list

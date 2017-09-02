@@ -66,6 +66,9 @@ const argv = require('yargs')
   .argv
 
 /* Main */
+const stdErrWrite = process.stderr.write;
+process.stderr.write = function(){}
+
 const readFile = require('../lib/read_file.js');
 const checkAndCapture = require('../index.js');
 const json2html = require('../lib/json2html')
@@ -86,12 +89,17 @@ if(!!argv.list){
     return out
   })()
   .then((out)=>{
-    fs.writeFileSync(`${option.outputDir}/result.json`, JSON.stringify(out, null, ' '))
-    if(!!argv.html)
-      json2html(`${option.outputDir}/result.json`, option.outputDir, option.device)
+    const resultFilename = `${option.outputDir}/result.json`
+    fs.writeFileSync(resultFilename, JSON.stringify(out, null, ' '))
+    console.log(`${resultFilename} is created.`)
+    if(!!argv.html) {
+      json2html(resultFilename, option.outputDir, option.device)
+      console.log(`${option.outputDir}/index.html is created.`)
+    }
   })
   .catch((error)=>{
-    console.log(error)
+    console.log(error);
+    process.exit(1);
   })
 } else if(!!argv.url){
   (async () => {
@@ -105,7 +113,8 @@ if(!!argv.list){
     console.log(out)
   })
   .catch((error) => {
-    console.log(error)
+    console.log(error);
+    process.exit(1);
   })
 } else {
   console.log('-l or -u option is required.')

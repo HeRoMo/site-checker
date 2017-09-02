@@ -2,6 +2,8 @@
 
 This is a tool for checking web site status and capturing screenshot.
 
+Japanese Guide is [here](https://github.com/HeRoMo/site-checker/wiki/%E4%BD%BF%E3%81%84%E6%96%B9).
+
 ## Installation
 
 ```

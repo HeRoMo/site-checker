@@ -40,8 +40,11 @@ td.capture {
 .status {
   text-align: center; width:60px;
 }
-.title, .url {
+.title, .url, .error {
   overflow: scroll; width: 100%;
+}
+.error {
+  color: red;
 }
 footer {
   text-align: center;
