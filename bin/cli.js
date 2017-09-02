@@ -66,6 +66,9 @@ const argv = require('yargs')
   .argv
 
 /* Main */
+const stdErrWrite = process.stderr.write;
+process.stderr.write = function(){}
+
 const readFile = require('../lib/read_file.js');
 const checkAndCapture = require('../index.js');
 const json2html = require('../lib/json2html')
@@ -95,7 +98,8 @@ if(!!argv.list){
     }
   })
   .catch((error)=>{
-    console.log(error)
+    console.log(error);
+    process.exit(1);
   })
 } else if(!!argv.url){
   (async () => {
@@ -109,7 +113,8 @@ if(!!argv.list){
     console.log(out)
   })
   .catch((error) => {
-    console.log(error)
+    console.log(error);
+    process.exit(1);
   })
 } else {
   console.log('-l or -u option is required.')
