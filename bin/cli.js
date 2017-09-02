@@ -86,9 +86,13 @@ if(!!argv.list){
     return out
   })()
   .then((out)=>{
-    fs.writeFileSync(`${option.outputDir}/result.json`, JSON.stringify(out, null, ' '))
-    if(!!argv.html)
-      json2html(`${option.outputDir}/result.json`, option.outputDir, option.device)
+    const resultFilename = `${option.outputDir}/result.json`
+    fs.writeFileSync(resultFilename, JSON.stringify(out, null, ' '))
+    console.log(`${resultFilename} is created.`)
+    if(!!argv.html) {
+      json2html(resultFilename, option.outputDir, option.device)
+      console.log(`${option.outputDir}/index.html is created.`)
+    }
   })
   .catch((error)=>{
     console.log(error)
