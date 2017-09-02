@@ -41,6 +41,7 @@ async function checkAndCapture(list, opts){
       }
       target.status = response.status
       target.title = await page.title();
+      target.reponse_url = response.url;
       if(response.ok){
         const filename = `capture_${target.id}.png`
         const filepath = `${outputDir}/${filename}`
