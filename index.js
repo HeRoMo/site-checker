@@ -10,7 +10,7 @@ const defaultOptions = {
 }
 Object.freeze(defaultOptions)
 
-async function checkAndCapture(list, opts){
+async function siteChecker(list, opts){
   const options = Object.assign({}, defaultOptions)
   Object.assign(options, opts)
   const browser = await puppeteer.launch();
@@ -57,4 +57,4 @@ async function checkAndCapture(list, opts){
   return list
 }
 
-module.exports = checkAndCapture;
+module.exports = siteChecker;

@@ -70,7 +70,7 @@ const stdErrWrite = process.stderr.write;
 process.stderr.write = function(){}
 
 const readFile = require('../lib/read_file.js');
-const checkAndCapture = require('../index.js');
+const siteChecker = require('../index.js');
 const json2html = require('../lib/json2html')
 
 const option = {}
@@ -85,7 +85,7 @@ if(!!argv.list){
       const parsedPath = path.parse(path.resolve(argv.list));
       option.outputDir = `${parsedPath.dir}/${parsedPath.name}`
     }
-    const out = await checkAndCapture(list, option)
+    const out = await siteChecker(list, option)
     return out
   })()
   .then((out)=>{
@@ -106,7 +106,7 @@ if(!!argv.list){
     const url = argv.url
     console.log('Target URL: %s', url)
     const list = [{ id: '00000', url }]
-    const out = await checkAndCapture(list, option)
+    const out = await siteChecker(list, option)
     return out
   })()
   .then((out)=>{
