@@ -1,6 +1,7 @@
 FROM node:8.4
 MAINTAINER HeRoMo
 
+RUN echo 'deb http://ftp.jp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
 RUN set -ex; \
         apt-get update; \
         apt-get install -y --no-install-recommends \
@@ -41,7 +42,8 @@ RUN set -ex; \
                 libnss3 \
                 lsb-release \
                 xdg-utils \
-                wget
+                wget \
+                fonts-noto-cjk
 
 RUN yarn global add site-checker
 
