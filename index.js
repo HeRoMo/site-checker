@@ -14,7 +14,7 @@ async function siteChecker(list, opts){
   const options = Object.assign({}, defaultOptions)
   Object.assign(options, opts)
   let args = {}
-  if(process.env.IN_DOCKER){
+  if(process.env.NO_SANDBOX){
     args = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
   }
   const browser = await puppeteer.launch(args);

@@ -41,12 +41,12 @@ RUN set -ex; \
                 libnss3 \
                 lsb-release \
                 xdg-utils \
-                wget \
-                vim
+                wget
 
 RUN yarn global add site-checker
 
-ENV IN_DOCKER=true
-USER node
+RUN mkdir -p /output
+WORKDIR /output
+ENV NO_SANDBOX=true
 ENTRYPOINT [ "site-checker" ]
 CMD [ "-h" ]
