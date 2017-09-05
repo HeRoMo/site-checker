@@ -10,10 +10,14 @@ const defaultOptions = {
 }
 Object.freeze(defaultOptions)
 
-async function checkAndCapture(list, opts){
+async function siteChecker(list, opts){
   const options = Object.assign({}, defaultOptions)
   Object.assign(options, opts)
-  const browser = await puppeteer.launch();
+  let args = {}
+  if(process.env.IN_DOCKER){
+    args = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
+  }
+  const browser = await puppeteer.launch(args);
   let page = await browser.newPage();
   if(!!options['device']){
     console.log('Emulate: %s', options['device'])
@@ -57,4 +61,4 @@ async function checkAndCapture(list, opts){
   return list
 }
 
-module.exports = checkAndCapture;
+module.exports = siteChecker;
