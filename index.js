@@ -45,7 +45,7 @@ async function siteChecker(list, opts){
       }
       target.status = response.status
       target.title = await page.title();
-      target.reponse_url = response.url;
+      target.response_url = response.url;
       if(response.ok){
         const filename = `capture_${target.id}.png`
         const filepath = `${outputDir}/${filename}`

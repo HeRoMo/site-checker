@@ -61,6 +61,7 @@ const argv = require('yargs')
     alias: 'fullpage',
     describe: 'capture whole page'
   })
+  .version()
   .help('h')
   .alias('h', 'help')
   .argv
