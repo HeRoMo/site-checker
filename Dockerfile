@@ -1,4 +1,4 @@
-FROM node:8.4
+FROM node:8.4-slim
 MAINTAINER HeRoMo
 
 RUN echo 'deb http://ftp.jp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
