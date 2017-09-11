@@ -1,4 +1,6 @@
 # Site Checker
+[![GitHub version](https://badge.fury.io/gh/HeRoMo%2Fsite-checker.svg)](https://badge.fury.io/gh/HeRoMo%2Fsite-checker)
+[![npm version](https://badge.fury.io/js/site-checker.svg)](https://badge.fury.io/js/site-checker)
 
 This is a tool for checking web site status and capturing screenshot.
 
