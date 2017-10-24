@@ -12,6 +12,12 @@ Japanese Guide is [here](https://github.com/HeRoMo/site-checker/wiki/%E4%BD%BF%E
 npm install -g site-checker
 ```
 
+You can use docker image of site-checker.
+
+```
+docker run --rm -v <output dir of host>:/output:rw hero/site-checker -u https://github.com/HeRoMo/site-checker
+```
+
 ## Options
 ```
 Options:
