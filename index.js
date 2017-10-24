@@ -33,6 +33,9 @@ async function siteChecker(list, opts){
     mkdirp.sync(options.outputDir);
     outputDir = options.outputDir;
   }
+  if(!!options.credentials){
+    await page.authenticate(options['credentials']);
+  }
   try {
     for (let target of list) {
       let response = { ok: false }
