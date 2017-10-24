@@ -21,6 +21,8 @@ Options:
   --html          output HTML file
   -d, --device    emulate device name                                   [string]
   -f, --fullpage  capture whole page
+  --auth          basic auth credencial. <username>:<password>          [string]
+  --version       Show version number                                  [boolean]
   -h, --help      Show help                                            [boolean]
 ```
 
@@ -54,6 +56,24 @@ $ site-checker -l url-list.csv
 This command creates `url-list` dir, and output screenshot images and `result.json` file in this dir.
 
 When `--html` option is set, the result is also output as an HTML file (index.html).
+
+### Authentication
+Site-Checker supports basic authentication.<br>
+You can set username and password by using `--auth` option.
+
+```bash
+$ site-checker -u https://basic-auth-site.com --auth username:password
+Target URL: https://basic-auth-site.com
+[ { id: '00000',
+    url: 'https://basic-auth-site.com',
+    status: 200,
+    filepath: './capture_00000.png',
+    filename: 'capture_00000.png' } ]
+```
+
+`--auth` option takes colon separated username and password.
+if you use `--auth` option with `-l` option, Site-Checker uses same credencial
+to every url of list.
 
 ## License
 
