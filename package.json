@@ -1,6 +1,6 @@
 {
   "name": "site-checker",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "check URL and capture screenshot",
   "engines": {
     "node": ">=8.2.0"
@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/HeRoMo/site-checker",
   "dependencies": {
-    "csv": "^1.1.1",
-    "csv-parse": "^1.2.1",
+    "csv": "^2.0.0",
+    "csv-parse": "^2.0.0",
     "mkdirp": "^0.5.1",
-    "pug": "^2.0.0-rc.3",
-    "puppeteer": "^0.10.1",
-    "yargs": "^8.0.2"
+    "pug": "^2.0.0-rc.4",
+    "puppeteer": "^0.12.0",
+    "yargs": "^10.0.3"
   }
 }
