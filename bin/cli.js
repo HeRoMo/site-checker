@@ -61,6 +61,19 @@ const argv = require('yargs')
     alias: 'fullpage',
     describe: 'capture whole page'
   })
+  .option('auth', {
+    describe: 'basic auth credencial. <username>:<password>',
+    type: 'string',
+    coerce: function(arg){
+      const [username, password] = arg.split(':');
+      if(username && password){
+        return {username, password} ;
+      } else {
+        console.log('auth option is invalid');
+        process.exit(1);
+      }
+    }
+  })
   .version()
   .help('h')
   .alias('h', 'help')
@@ -78,6 +91,7 @@ const option = {}
 if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
 if(!!argv.fullpage) option['fullPage'] = true;
+if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){
   console.log('Target URL List: %s', argv.list);
   (async () => {
