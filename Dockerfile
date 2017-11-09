@@ -43,7 +43,8 @@ RUN set -ex; \
                 lsb-release \
                 xdg-utils \
                 wget \
-                fonts-noto-cjk
+                fonts-noto-cjk \
+        && rm -rf /var/lib/apt/lists/*
 
 RUN yarn global add site-checker
 
