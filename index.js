@@ -11,8 +11,8 @@ const defaultOptions = {
 Object.freeze(defaultOptions)
 
 async function siteChecker(list, opts){
-  const options = Object.assign({}, defaultOptions)
-  Object.assign(options, opts)
+  const options = Object.assign({}, defaultOptions, opts)
+  // Object.assign(options, opts)
   let args = {}
   if(process.env.NO_SANDBOX){
     args = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
