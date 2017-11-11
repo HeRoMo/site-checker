@@ -60,7 +60,7 @@ async function siteChecker(list, opts){
       target.status = response.status
       target.title = await page.title();
       target.response_url = response.url;
-      if(response.ok){
+      if(options.screenshot && response.ok){
         const filename = `capture_${target.id}.png`
         const filepath = `${outputDir}/${filename}`
         await page.screenshot({ path: filepath, fullPage: options.fullPage });

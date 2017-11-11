@@ -67,6 +67,12 @@ const argv = require('yargs')
   .option('timeline',{
     describe: 'access url with tracing timeline.'
   })
+  .option('s',{
+    alias: 'screenshot',
+    describe: 'take a screenshot at access successfully.',
+    type: 'boolean',
+    default: true
+  })
   .option('auth', {
     describe: 'basic auth credencial. <username>:<password>',
     type: 'string',
@@ -99,6 +105,7 @@ if(!!argv.device) option['device'] = argv.device;
 if(!!argv.fullpage) option['fullPage'] = true;
 if(!!argv.nocache) option['noCache'] = true;
 if(!!argv.timeline) option['timeline'] = true;
+option['screenshot'] = argv.screenshot
 if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){
   console.log('Target URL List: %s', argv.list);
