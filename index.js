@@ -41,12 +41,21 @@ async function siteChecker(list, opts){
   try {
     for (let target of list) {
       let response = { ok: false }
+      let traced = false;
       try{
+        if(options.timeline){
+          const path = `${outputDir}/trace_${target.id}.json`
+          await page.tracing.start( { path , screenshots: true } );
+          traced = true;
+        }
         response = await page.goto(target.url);
       } catch(error) {
         target.status = "ERROR"
         target.error_message = error.toString();
         continue;
+      } finally {
+        if(traced) await page.tracing.stop();
+        console.log('STOP')
       }
       target.status = response.status
       target.title = await page.title();

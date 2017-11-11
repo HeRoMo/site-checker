@@ -64,6 +64,9 @@ const argv = require('yargs')
   .option('nocache',{
     describe: 'disable browser cache'
   })
+  .option('timeline',{
+    describe: 'access url with tracing timeline.'
+  })
   .option('auth', {
     describe: 'basic auth credencial. <username>:<password>',
     type: 'string',
@@ -95,6 +98,7 @@ if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
 if(!!argv.fullpage) option['fullPage'] = true;
 if(!!argv.nocache) option['noCache'] = true;
+if(!!argv.timeline) option['timeline'] = true;
 if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){
   console.log('Target URL List: %s', argv.list);
