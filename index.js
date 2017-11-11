@@ -44,8 +44,11 @@ async function siteChecker(list, opts){
       let traced = false;
       try{
         if(options.timeline){
-          const path = `${outputDir}/trace_${target.id}.json`
-          await page.tracing.start( { path , screenshots: true } );
+          const trace_file = `trace_${target.id}.json`
+          const trace_path = `${outputDir}/${trace_file}`
+          await page.tracing.start( { path: trace_path, screenshots: true } );
+          target.trace_file = trace_file;
+          target.trace_path = trace_path;
           traced = true;
         }
         response = await page.goto(target.url);
@@ -60,11 +63,11 @@ async function siteChecker(list, opts){
       target.title = await page.title();
       target.response_url = response.url;
       if(options.screenshot && response.ok){
-        const filename = `capture_${target.id}.png`
-        const filepath = `${outputDir}/${filename}`
-        await page.screenshot({ path: filepath, fullPage: options.fullPage });
-        target.filepath = filepath
-        target.filename = filename
+        const screenshot_file = `screenshot_${target.id}.png`
+        const screenshot_path = `${outputDir}/${screenshot_file}`
+        await page.screenshot({ path: screenshot_path, fullPage: options.fullPage });
+        target.screenshot_file = screenshot_file;
+        target.screenshot_path = screenshot_path;
       }
     }
   } catch(error) {
