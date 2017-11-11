@@ -1,4 +1,4 @@
-FROM node:8.4-slim
+FROM node:9.1-slim
 MAINTAINER HeRoMo
 
 RUN echo 'deb http://ftp.jp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
@@ -43,7 +43,8 @@ RUN set -ex; \
                 lsb-release \
                 xdg-utils \
                 wget \
-                fonts-noto-cjk
+                fonts-noto-cjk \
+        && rm -rf /var/lib/apt/lists/*
 
 RUN yarn global add site-checker
 

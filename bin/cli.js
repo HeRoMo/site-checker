@@ -11,10 +11,10 @@ const argv = require('yargs')
     alias: 'url',
     describe: 'set the url which is checked and captured',
     coerce: function(arg){
-      if(/^https?:\/\//i.test(arg)){
+      if(/^https?:\/\/[\S]+\.[\S]+/.test(arg)){
         return arg;
       } else {
-        console.log('Please set valid url')
+        console.error(`[ERROR] url option is invalid. ${arg} is invalid url.`);
         process.exit(1);
       }
     }
@@ -27,7 +27,7 @@ const argv = require('yargs')
       if(fs.existsSync(arg)){
         return arg
       } else {
-        console.error('Not Exists')
+        console.error(`[ERROR] list option is invalid. ${arg} is not found`)
         process.exit(1);
       }
     }
@@ -41,7 +41,8 @@ const argv = require('yargs')
     }
   })
   .option('html', {
-    describe: 'output HTML file'
+    describe: 'output HTML file',
+    type: 'boolean'
   })
   .option('d', {
     alias: 'device',
@@ -51,7 +52,9 @@ const argv = require('yargs')
       if(devices[arg]){
         return arg
       } else {
-        console.log('avarable devices: ')
+        if(arg) console.log(`[ERROR] devise option is invalid. ${arg} is unavarable device.`);
+          else console.log(`[ERROR] devise option requires any device name.`);
+        console.log('avarable devices: ');
         for(const d of devices) console.log('\t"%s"', d.name);
         process.exit(1);
       }
@@ -59,7 +62,22 @@ const argv = require('yargs')
   })
   .option('f', {
     alias: 'fullpage',
-    describe: 'capture whole page'
+    describe: 'capture whole page',
+    type: 'boolean'
+  })
+  .option('nocache',{
+    describe: 'disable browser cache',
+    type: 'boolean'
+  })
+  .option('timeline',{
+    describe: 'access url with tracing timeline.',
+    type: 'boolean'
+  })
+  .option('s',{
+    alias: 'screenshot',
+    describe: 'take a screenshot at access successfully.',
+    type: 'boolean',
+    default: true
   })
   .option('auth', {
     describe: 'basic auth credencial. <username>:<password>',
@@ -69,7 +87,7 @@ const argv = require('yargs')
       if(username && password){
         return {username, password} ;
       } else {
-        console.log('auth option is invalid');
+        console.log('[ERROR] auth option is invalid.');
         process.exit(1);
       }
     }
@@ -90,7 +108,10 @@ const json2html = require('../lib/json2html')
 const option = {}
 if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
-if(!!argv.fullpage) option['fullPage'] = true;
+option['fullPage'] = argv.fullpage;
+option['noCache'] = argv.nocache;
+option['timeline'] = argv.timeline;
+option['screenshot'] = argv.screenshot
 if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){
   console.log('Target URL List: %s', argv.list);

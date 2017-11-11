@@ -21,15 +21,19 @@ docker run --rm -v <output dir of host>:/output:rw hero/site-checker -u https://
 ## Options
 ```
 Options:
-  -u, --url       set the url which is checked and captured
-  -l, --list      set the filepath of URL list.                         [string]
-  -o, --output    set output dir name                                   [string]
-  --html          output HTML file
-  -d, --device    emulate device name                                   [string]
-  -f, --fullpage  capture whole page
-  --auth          basic auth credencial. <username>:<password>          [string]
-  --version       Show version number                                  [boolean]
-  -h, --help      Show help                                            [boolean]
+  -u, --url         set the url which is checked and captured
+  -l, --list        set the filepath of URL list.                       [string]
+  -o, --output      set output dir name                                 [string]
+  --html            output HTML file                                   [boolean]
+  -d, --device      emulate device name                                 [string]
+  -f, --fullpage    capture whole page                                 [boolean]
+  --nocache         disable browser cache                              [boolean]
+  --timeline        access url with tracing timeline.                  [boolean]
+  -s, --screenshot  take a screenshot at access successfully.
+                                                       [boolean] [default: true]
+  --auth            basic auth credencial. <username>:<password>        [string]
+  --version         Show version number                                [boolean]
+  -h, --help        Show help                                          [boolean]
 ```
 
 ## Usage
@@ -54,7 +58,8 @@ and output a screenshot image as `capture_00000.png`
 By using `-l` option, you can check multiple URL at once.
 `-l` option accept two file format, `.txt` and `.csv`
 
-`.txt` is one URL per line format. `.csv` format must have *id* column and *url* column.
+`.txt` is one URL per line format. `.csv` format must have *id* column and *url* column
+(see [sample](samples/url-list.csv).
 
 ```bash
 $ site-checker -l url-list.csv
@@ -62,6 +67,20 @@ $ site-checker -l url-list.csv
 This command creates `url-list` dir, and output screenshot images and `result.json` file in this dir.
 
 When `--html` option is set, the result is also output as an HTML file (index.html).
+
+### Record site timeline
+
+By using `--timeline` option, You can record web site performance.
+
+When you run Site-checker with `--timeline` option,
+Site-checker outputs *timelime_XXXXX.json* file which
+is compatible to Performance (a.k.a Timeline) of Chrome Dev Tool.
+
+```bash
+$ site-checker -l url-list.csv --timeline -d 'iPhone 6 Plus'
+```
+
+You can watch the result by using Chrome Dev Tool or [DevTools Timeline Viewer](https://chromedevtools.github.io/timeline-viewer/)
 
 ### Authentication
 Site-Checker supports basic authentication.<br>
