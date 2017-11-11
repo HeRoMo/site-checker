@@ -14,7 +14,7 @@ const argv = require('yargs')
       if(/^https?:\/\/[\S]+\.[\S]+/.test(arg)){
         return arg;
       } else {
-        console.error(`[ERROR] ${arg} is invalid url.`);
+        console.error(`[ERROR] url option is invalid. ${arg} is invalid url.`);
         process.exit(1);
       }
     }
@@ -27,7 +27,7 @@ const argv = require('yargs')
       if(fs.existsSync(arg)){
         return arg
       } else {
-        console.error(`[ERROR] ${arg} is not found`)
+        console.error(`[ERROR] list option is invalid. ${arg} is not found`)
         process.exit(1);
       }
     }
@@ -52,7 +52,9 @@ const argv = require('yargs')
       if(devices[arg]){
         return arg
       } else {
-        console.log('avarable devices: ')
+        if(arg) console.log(`[ERROR] devise option is invalid. ${arg} is unavarable device.`);
+          else console.log(`[ERROR] devise option requires any device name.`);
+        console.log('avarable devices: ');
         for(const d of devices) console.log('\t"%s"', d.name);
         process.exit(1);
       }
@@ -85,7 +87,7 @@ const argv = require('yargs')
       if(username && password){
         return {username, password} ;
       } else {
-        console.log('auth option is invalid');
+        console.log('[ERROR] auth option is invalid.');
         process.exit(1);
       }
     }
