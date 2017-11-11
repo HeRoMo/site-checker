@@ -41,7 +41,8 @@ const argv = require('yargs')
     }
   })
   .option('html', {
-    describe: 'output HTML file'
+    describe: 'output HTML file',
+    type: 'boolean'
   })
   .option('d', {
     alias: 'device',
@@ -59,13 +60,16 @@ const argv = require('yargs')
   })
   .option('f', {
     alias: 'fullpage',
-    describe: 'capture whole page'
+    describe: 'capture whole page',
+    type: 'boolean'
   })
   .option('nocache',{
-    describe: 'disable browser cache'
+    describe: 'disable browser cache',
+    type: 'boolean'
   })
   .option('timeline',{
-    describe: 'access url with tracing timeline.'
+    describe: 'access url with tracing timeline.',
+    type: 'boolean'
   })
   .option('s',{
     alias: 'screenshot',
@@ -102,9 +106,9 @@ const json2html = require('../lib/json2html')
 const option = {}
 if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
-if(!!argv.fullpage) option['fullPage'] = true;
-if(!!argv.nocache) option['noCache'] = true;
-if(!!argv.timeline) option['timeline'] = true;
+option['fullPage'] = argv.fullpage;
+option['noCache'] = argv.nocache;
+option['timeline'] = argv.timeline;
 option['screenshot'] = argv.screenshot
 if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){

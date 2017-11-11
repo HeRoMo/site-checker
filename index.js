@@ -18,7 +18,7 @@ async function siteChecker(list, opts){
   }
   const browser = await puppeteer.launch(args);
   let page = await browser.newPage();
-  if(!!options['noCache']){
+  if(options.noCache){
     await page._client.send('Network.setCacheDisabled', {cacheDisabled: true});
   }
   if(!!options['device']){
