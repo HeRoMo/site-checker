@@ -61,6 +61,9 @@ const argv = require('yargs')
     alias: 'fullpage',
     describe: 'capture whole page'
   })
+  .option('nocache',{
+    describe: 'disable browser cache'
+  })
   .option('auth', {
     describe: 'basic auth credencial. <username>:<password>',
     type: 'string',
@@ -91,6 +94,7 @@ const option = {}
 if(!!argv.output) option['outputDir'] = argv.output;
 if(!!argv.device) option['device'] = argv.device;
 if(!!argv.fullpage) option['fullPage'] = true;
+if(!!argv.nocache) option['noCache'] = true;
 if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){
   console.log('Target URL List: %s', argv.list);

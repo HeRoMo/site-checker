@@ -12,13 +12,15 @@ Object.freeze(defaultOptions)
 
 async function siteChecker(list, opts){
   const options = Object.assign({}, defaultOptions, opts)
-  // Object.assign(options, opts)
   let args = {}
   if(process.env.NO_SANDBOX){
     args = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
   }
   const browser = await puppeteer.launch(args);
   let page = await browser.newPage();
+  if(!!options['noCache']){
+    await page._client.send('Network.setCacheDisabled', {cacheDisabled: true});
+  }
   if(!!options['device']){
     console.log('Emulate: %s', options['device'])
     await page.emulate(devices[options['device']])
