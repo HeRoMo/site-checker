@@ -44,11 +44,11 @@ async function siteChecker(list, opts){
       let traced = false;
       try{
         if(options.timeline){
-          const trace_file = `trace_${target.id}.json`
-          const trace_path = `${outputDir}/${trace_file}`
-          await page.tracing.start( { path: trace_path, screenshots: true } );
-          target.trace_file = trace_file;
-          target.trace_path = trace_path;
+          const timeline_file = `timeline_${target.id}.json`
+          const timeline_path = `${outputDir}/${timeline_file}`
+          await page.tracing.start( { path: timeline_path, screenshots: true } );
+          target.timeline_file = timeline_file;
+          target.timeline_path = timeline_path;
           traced = true;
         }
         response = await page.goto(target.url);
