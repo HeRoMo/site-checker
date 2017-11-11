@@ -11,10 +11,10 @@ const argv = require('yargs')
     alias: 'url',
     describe: 'set the url which is checked and captured',
     coerce: function(arg){
-      if(/^https?:\/\//i.test(arg)){
+      if(/^https?:\/\/[\S]+\.[\S]+/.test(arg)){
         return arg;
       } else {
-        console.log('Please set valid url')
+        console.error(`[ERROR] ${arg} is invalid url.`);
         process.exit(1);
       }
     }
@@ -27,7 +27,7 @@ const argv = require('yargs')
       if(fs.existsSync(arg)){
         return arg
       } else {
-        console.error('Not Exists')
+        console.error(`[ERROR] ${arg} is not found`)
         process.exit(1);
       }
     }

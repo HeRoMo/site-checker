@@ -55,7 +55,6 @@ async function siteChecker(list, opts){
         continue;
       } finally {
         if(traced) await page.tracing.stop();
-        console.log('STOP')
       }
       target.status = response.status
       target.title = await page.title();
