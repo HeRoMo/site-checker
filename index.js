@@ -10,40 +10,49 @@ const defaultOptions = {
 }
 Object.freeze(defaultOptions)
 
-async function siteChecker(list, opts){
-  const options = Object.assign({}, defaultOptions, opts)
-  let args = {}
-  if(process.env.NO_SANDBOX){
-    args = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
-  }
-  const browser = await puppeteer.launch(args);
+async function preparePage(browser, options){
   let page = await browser.newPage();
   if(options.noCache){
     await page._client.send('Network.setCacheDisabled', {cacheDisabled: true});
   }
-  if(!!options['device']){
-    console.log('Emulate: %s', options['device'])
-    await page.emulate(devices[options['device']])
+  if(!!options.device){
+    await page.emulate(devices[options.device])
   } else {
     await page.setViewport({
       width: options.viewportWidth,
       height: options.viewportHeight
     })
   }
+  if(!!options.credentials){
+    await page.authenticate(options['credentials']);
+  }
+  return page;
+}
+
+async function siteChecker(list, opts){
+  const options = Object.assign({}, defaultOptions, opts)
   let outputDir = '.'
   if(!!options.outputDir){
     mkdirp.sync(options.outputDir);
     outputDir = options.outputDir;
   }
-  if(!!options.credentials){
-    await page.authenticate(options['credentials']);
+
+  let args = {}
+  if(process.env.NO_SANDBOX){
+    args = {args: ['--no-sandbox', '--disable-setuid-sandbox'] }
   }
+
+  const browser = await puppeteer.launch(args);
+  let page = await preparePage(browser, options)
+
   try {
     for (let target of list) {
       let response = { ok: false }
       let traced = false;
       try{
         if(options.timeline){
+          await page.close(); // renew Page object.
+          page = await preparePage(browser, options);
           const timeline_file = `timeline_${target.id}.json`
           const timeline_path = `${outputDir}/${timeline_file}`
           await page.tracing.start( { path: timeline_path, screenshots: true } );

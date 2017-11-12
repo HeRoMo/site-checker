@@ -115,6 +115,7 @@ option['screenshot'] = argv.screenshot
 if(!!argv.auth) option['credentials'] = argv.auth;
 if(!!argv.list){
   console.log('Target URL List: %s', argv.list);
+  if(!!argv.device) console.log('Emulate: %s', argv.device);
   (async () => {
     const list = await readFile(argv.list);
     if(!option.outputDir){
@@ -141,6 +142,7 @@ if(!!argv.list){
   (async () => {
     const url = argv.url
     console.log('Target URL: %s', url)
+    if(!!argv.device) console.log('Emulate: %s', argv.device);
     const list = [{ id: '00000', url }]
     const out = await siteChecker(list, option)
     return out
