@@ -26,5 +26,9 @@
     "pug": "^2.0.0-rc.4",
     "puppeteer": "^0.12.0",
     "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-google": "^0.9.1"
   }
 }
