@@ -21,7 +21,7 @@
   "homepage": "https://github.com/HeRoMo/site-checker",
   "dependencies": {
     "csv": "^2.0.0",
-    "csv-parse": "^2.0.0",
+    "csv-parse": "^2.0.4",
     "mkdirp": "^0.5.1",
     "pug": "^2.0.0-rc.4",
     "puppeteer": "^0.12.0",
