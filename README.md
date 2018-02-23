@@ -59,21 +59,21 @@ By using `-l` option, you can check multiple URL at once.
 `-l` option accept two file format, `.txt` and `.csv`
 
 `.txt` is one URL per line format. `.csv` format must have *id* column and *url* column
-(see [sample](samples/url-list.csv).
+(see [sample](samples/url-list.csv)).
 
 ```bash
 $ site-checker -l url-list.csv
 ```
-This command creates `url-list` dir, and output screenshot images and `result.json` file in this dir.
+This command creates dir named `url-list`, and output screenshot images and `result.json` file in this dir.
 
-When `--html` option is set, the result is also output as an HTML file (index.html).
+With `--html` option, the result is also output as an HTML file (index.html).
 
 ### Record site timeline
 
 By using `--timeline` option, You can record web site performance.
 
-When you run Site-checker with `--timeline` option,
-Site-checker outputs *timelime_XXXXX.json* file which
+When you run site-checker with `--timeline` option,
+site-checker outputs *timelime_XXXXX.json* file which
 is compatible to Performance (a.k.a Timeline) of Chrome Dev Tool.
 
 ```bash
@@ -83,7 +83,7 @@ $ site-checker -l url-list.csv --timeline -d 'iPhone 6 Plus'
 You can watch the result by using Chrome Dev Tool or [DevTools Timeline Viewer](https://chromedevtools.github.io/timeline-viewer/)
 
 ### Authentication
-Site-Checker supports basic authentication.<br>
+Site-checker supports basic authentication.<br>
 You can set username and password by using `--auth` option.
 
 ```bash
@@ -97,8 +97,7 @@ Target URL: https://basic-auth-site.com
 ```
 
 `--auth` option takes colon separated username and password.
-if you use `--auth` option with `-l` option, Site-Checker uses same credencial
-to every url of list.
+if you use `--auth` option with `-l` option, site-checker uses same credentials to every url of list.
 
 ## License
 
