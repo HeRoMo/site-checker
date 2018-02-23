@@ -28,7 +28,7 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "eslint": "^4.11.0",
+    "eslint": "^4.18.1",
     "eslint-config-google": "^0.9.1"
   }
 }
