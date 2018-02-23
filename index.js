@@ -12,9 +12,7 @@ Object.freeze(defaultOptions)
 
 async function preparePage(browser, options){
   let page = await browser.newPage();
-  if(options.noCache){
-    await page._client.send('Network.setCacheDisabled', {cacheDisabled: true});
-  }
+  await page.setCacheEnabled(!options.noCache)
   if(!!options.device){
     await page.emulate(devices[options.device])
   } else {
@@ -47,7 +45,7 @@ async function siteChecker(list, opts){
 
   try {
     for (let target of list) {
-      let response = { ok: false }
+      let response = { ok: () => false }
       let traced = false;
       try{
         if(options.timeline){
@@ -68,10 +66,10 @@ async function siteChecker(list, opts){
       } finally {
         if(traced) await page.tracing.stop();
       }
-      target.status = response.status
+      target.status = response.status()
       target.title = await page.title();
-      target.response_url = response.url;
-      if(options.screenshot && response.ok){
+      target.response_url = response.url();
+      if(options.screenshot && response.ok()){
         const screenshot_file = `screenshot_${target.id}.png`
         const screenshot_path = `${outputDir}/${screenshot_file}`
         await page.screenshot({ path: screenshot_path, fullPage: options.fullPage });
