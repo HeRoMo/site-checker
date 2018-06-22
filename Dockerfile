@@ -1,5 +1,5 @@
-FROM node:9.6-slim
-MAINTAINER HeRoMo
+FROM node:10.5-slim
+LABEL maintainer="HeRoMo"
 
 RUN echo 'deb http://ftp.jp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
 RUN set -ex; \
