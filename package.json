@@ -10,6 +10,7 @@
     "site-checker": "bin/cli.js"
   },
   "scripts": {
+    "eslint": "eslint --ext .js --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HeRoMo",
@@ -28,7 +29,7 @@
     "yargs": "^16.0.3"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-google": "^0.9.1"
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0"
   }
 }
