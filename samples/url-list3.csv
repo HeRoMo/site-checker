@@ -1,4 +1,4 @@
-# CWV file sample
+# CSV file sample
 id,url,memo
 10000,https://github.com, 'git repository service'
 10001,https://www.npmjs.com/, 'npm site'
