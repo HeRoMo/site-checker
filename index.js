@@ -1,6 +1,6 @@
 "use strict";
 const puppeteer = require('puppeteer');
-const devices = require('puppeteer/DeviceDescriptors');
+const devices = puppeteer.devices;
 const mkdirp = require('mkdirp');
 
 const defaultOptions = {
@@ -72,7 +72,7 @@ async function siteChecker(list, opts){
       if(options.screenshot && response.ok()){
         const screenshot_file = `screenshot_${target.id}.png`
         const screenshot_path = `${outputDir}/${screenshot_file}`
-        await page.screenshot({ path: screenshot_path, fullPage: options.fullPage });
+        await page.screenshot({ path: screenshot_path, fullPage: options.fullPage, type: 'png' });
         target.screenshot_file = screenshot_file;
         target.screenshot_path = screenshot_path;
       }
