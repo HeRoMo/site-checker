@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const puppeteer = require('puppeteer');
-const devices = require('puppeteer/DeviceDescriptors');
+const devices = puppeteer.devices;
 const fs = require('fs');
 const path = require('path');
 

@@ -10,6 +10,7 @@
     "site-checker": "bin/cli.js"
   },
   "scripts": {
+    "eslint": "eslint --ext .js --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HeRoMo",
@@ -20,15 +21,15 @@
   },
   "homepage": "https://github.com/HeRoMo/site-checker",
   "dependencies": {
-    "csv": "^3.1.0",
-    "csv-parse": "^2.5.0",
-    "mkdirp": "^0.5.1",
-    "pug": "^2.0.3",
-    "puppeteer": "^1.5.0",
-    "yargs": "^11.0.0"
+    "csv": "^5.3.2",
+    "csv-parse": "^4.12.0",
+    "mkdirp": "^1.0.4",
+    "pug": "^3.0.0",
+    "puppeteer": "^5.3.0",
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-google": "^0.9.1"
+    "eslint": "^7.9.0",
+    "eslint-config-google": "^0.14.0"
   }
 }
