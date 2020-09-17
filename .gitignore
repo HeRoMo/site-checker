@@ -9,3 +9,5 @@ dist
 samples/**/*.json
 samples/**/*.html
 /*.csv
+*.tgz
+package/
