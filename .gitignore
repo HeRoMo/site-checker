@@ -11,3 +11,4 @@ samples/**/*.html
 /*.csv
 *.tgz
 package/
+coverage/
