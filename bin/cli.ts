@@ -23,34 +23,30 @@ function isAuthOptions(str: any): str is AuthOptions {
 
 /* Parsing options */
 const { argv } = yargs
-  .option('u', {
-    alias: 'url',
+  .option('url', {
+    alias: 'u',
     describe: 'set the url which is checked and captured',
     type: 'string',
     coerce: (arg: string): string => {
       if (/^https?:\/\/[\S]+\.[\S]+/.test(arg)) {
         return arg;
       }
-      // console.error(`[ERROR] url option is invalid. ${arg} is invalid url.`);
-      // process.exit(1);
-      throw new Error(`[ERROR] url option is invalid. ${arg} is invalid url.`);
+      throw new Error(`[ERROR] url option is invalid. "${arg}" is invalid url.`);
     },
   })
-  .option('l', {
-    alias: 'list',
+  .option('list', {
+    alias: 'l',
     describe: 'set the filepath of URL list.',
     type: 'string',
     coerce: (arg: string): string => {
       if (fs.existsSync(arg)) {
         return arg;
       }
-      // console.error(`[ERROR] list option is invalid. ${arg} is not found`);
-      // process.exit(1);
-      throw new Error(`[ERROR] list option is invalid. ${arg} is not found`);
+      throw new Error(`[ERROR] list option is invalid. "${arg}" is not found`);
     },
   })
-  .option('o', {
-    alias: 'output',
+  .option('output', {
+    alias: 'o',
     describe: 'set output dir name',
     type: 'string',
     coerec: (arg: string): string => path.resolve(arg),
@@ -59,8 +55,8 @@ const { argv } = yargs
     describe: 'output HTML file',
     type: 'boolean',
   })
-  .option('d', {
-    alias: 'device',
+  .option('device', {
+    alias: 'd',
     describe: 'emulate device name',
     type: 'string',
     coerce: (arg) => {
@@ -69,20 +65,17 @@ const { argv } = yargs
       }
       let message: string;
       if (arg) {
-        message = `[ERROR] devise option is invalid. ${arg} is unavarable device.`;
-        console.info(message);
+        message = `[ERROR] devise option is invalid. "${arg}" is unavarable device.`;
       } else {
         message = '[ERROR] devise option requires any device name.';
-        console.info(message);
       }
-      console.info('avarable devices: ');
-      Object.values(devices).forEach((d) => { console.info('\t"%s"', d.name); });
-      // process.exit(1);
-      throw new Error(message);
+      let devicesMessage = 'avarable devices: ';
+      Object.values(devices).forEach((d) => { devicesMessage += `\n\t${d.name}`; });
+      throw new Error(`${message}\n${devicesMessage}`);
     },
   })
-  .option('f', {
-    alias: 'fullpage',
+  .option('fullpage', {
+    alias: 'f',
     describe: 'capture whole page',
     type: 'boolean',
     default: false,
@@ -97,8 +90,8 @@ const { argv } = yargs
     type: 'boolean',
     default: false,
   })
-  .option('s', {
-    alias: 'screenshot',
+  .option('screenshot', {
+    alias: 's',
     describe: 'take a screenshot at access successfully.',
     type: 'boolean',
     default: true,
@@ -111,24 +104,21 @@ const { argv } = yargs
       if (username && password) {
         return { username, password };
       }
-      // console.error('[ERROR] auth option is invalid.');
-      // process.exit(1);
       throw new Error('[ERROR] auth option is invalid.');
     },
   })
   .version()
   .help('h')
-  .alias('h', 'help');
+  .alias('help', 'h');
 
 /* Main */
-// process.stderr.write = (): boolean => true; // TODO: 必要？
 const option: InputOpts = {};
 if (typeof argv.output === 'string') option.outputDir = argv.output;
 if (typeof argv.device === 'string') option.device = argv.device;
-option.fullPage = argv.f;
+option.fullPage = argv.fullpage;
 option.noCache = argv.nocache;
 option.timeline = argv.timeline;
-option.screenshot = argv.s;
+option.screenshot = argv.screenshot;
 if (isAuthOptions(argv.auth)) option.credentials = argv.auth;
 if (typeof argv.list === 'string') {
   console.info('Target URL List: %s', argv.list);

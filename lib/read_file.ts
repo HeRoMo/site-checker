@@ -3,7 +3,6 @@ import path from 'path';
 import readline from 'readline';
 import parse from 'csv-parse';
 
-/* eslint-disable camelcase */
 export interface SiteInfo {
   id: string;
   url: string;
@@ -16,10 +15,9 @@ export interface SiteInfo {
   screenshotFile?: string;
   screenshotPath?: string;
 }
-/* eslint-enable camelcase */
 
 function readCsv(filename: string): Promise<SiteInfo[]> {
-  const output: { id: string, url: string }[] = [];
+  const output: SiteInfo[] = [];
   return new Promise((resolve, reject) => {
     fs.readFile(filename, (error, data) => {
       if (error) reject(error);
@@ -37,7 +35,7 @@ function readCsv(filename: string): Promise<SiteInfo[]> {
 }
 
 function readTxt(filename: string): Promise<SiteInfo[]> {
-  const output: { id: string, url: string }[] = [];
+  const output: SiteInfo[] = [];
   let index = 0;
   return new Promise((resolve) => {
     const input = fs.createReadStream(filename, 'utf8');

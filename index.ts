@@ -70,7 +70,7 @@ export async function siteChecker(list: SiteInfo[], opts: InputOpts) {
   /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-restricted-syntax
   for (const target of list) {
-    let response: Response|null; // = { ok: () => false };
+    let response: Response|null;
     let traced = false;
     try {
       if (options.timeline) {
@@ -101,7 +101,6 @@ export async function siteChecker(list: SiteInfo[], opts: InputOpts) {
     } catch (error) {
       target.status = 'ERROR'; // eslint-disable-line no-param-reassign
       target.errorMessage = error.toString(); // eslint-disable-line no-param-reassign
-      // continue;
     } finally {
       if (traced) await page.tracing.stop();
     }
