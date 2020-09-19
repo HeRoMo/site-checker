@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import * as yargs from 'yargs';
 
-import { readFile } from '../lib/read_file';
+import { readFile } from '../lib/readFile';
 import { siteChecker, SiteCheckerOptions } from '../index';
 import { json2html } from '../lib/json2html';
 

@@ -1,4 +1,4 @@
-import { readFile } from '../../lib/read_file';
+import { readFile } from '../../lib/readFile';
 
 test('read txt file', async () => {
   expect.assertions(3);

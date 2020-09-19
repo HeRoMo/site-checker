@@ -3,18 +3,7 @@ import path from 'path';
 import readline from 'readline';
 import parse from 'csv-parse';
 
-export interface SiteInfo {
-  id: string;
-  url: string;
-  timelineFile?: string;
-  timelinePath?: string;
-  status?: number|'ERROR';
-  errorMessage?: string;
-  title?: string;
-  responseUrl?: string;
-  screenshotFile?: string;
-  screenshotPath?: string;
-}
+import { SiteInfo } from './SiteChecker';
 
 const URL_REGEX = /^https?:\/\//;
 
