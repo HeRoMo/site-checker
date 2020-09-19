@@ -26,7 +26,7 @@ rules:
   import/no-unresolved: error
   import/prefer-default-export: off
   lines-between-class-members: ["error", "always", { exceptAfterSingleLine: true }]
-  no-console: [error, { allow: [info, error] }]
+  no-console: [error, { allow: [info, warn, error] }]
   no-new: off
   no-unused-expressions: off
   no-unused-vars: off

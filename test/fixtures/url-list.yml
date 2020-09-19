@@ -1,0 +1,9 @@
+# CSV file sample
+site-list:
+  - id: 10000
+    url: https://github.com
+  - id: 10001
+    url: https://www.npmjs.com/
+  - id: 10002
+    url: https://www.google.com/
+    memo: web search service

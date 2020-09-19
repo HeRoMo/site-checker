@@ -16,41 +16,65 @@ export interface SiteInfo {
   screenshotPath?: string;
 }
 
-function readCsv(filename: string): Promise<SiteInfo[]> {
-  const output: SiteInfo[] = [];
-  return new Promise((resolve, reject) => {
-    fs.readFile(filename, (error, data) => {
-      if (error) reject(error);
-      parse(data, {
-        columns: true, comment: '#', trim: true, skip_empty_lines: true,
-      }, (err, csv) => {
-        if (err) console.error(err);
-        csv.forEach((line: { id: string, url: string }) => {
-          output.push({ id: line.id, url: line.url });
-        });
-      });
-    });
-    resolve(output);
-  });
+const URL_REGEX = /^https?:\/\//;
+
+/**
+ * Type Guard for SiteInfo
+ *
+ * @param obj Input object
+ */
+function isSiteInfo(obj: any): obj is SiteInfo {
+  return typeof obj.id === 'string' && URL_REGEX.test(obj.url);
 }
 
-function readTxt(filename: string): Promise<SiteInfo[]> {
+/**
+ * Read csv formatted site list file.
+ *
+ * @param filename Input filepath
+ */
+async function readCsv(filename: string): Promise<SiteInfo[]> {
+  const data = await fs.promises.readFile(filename);
+  const csv = parse(data, {
+    columns: true, comment: '#', trim: true, skip_empty_lines: true,
+  });
+  const output: SiteInfo[] = [];
+  for await (const line of csv) { // eslint-disable-line no-restricted-syntax
+    if (isSiteInfo(line)) {
+      output.push({ id: line.id, url: line.url });
+    } else {
+      console.warn(`line ${JSON.stringify(line)} is invalid.`);
+    }
+  }
+  return output;
+}
+
+/**
+ * Read text format site list file.
+ *
+ * @param filename Input filepath
+ */
+async function readTxt(filename: string): Promise<SiteInfo[]> {
   const output: SiteInfo[] = [];
   let index = 0;
-  return new Promise((resolve) => {
-    const input = fs.createReadStream(filename, 'utf8');
-    const reader = readline.createInterface({ input });
-    reader.on('line', (line) => {
-      const url = line.trim();
-      if (!/^https?:\/\//.test(url)) return;
+  const input = fs.createReadStream(filename, 'utf8');
+  const reader = readline.createInterface({ input });
+
+  for await (const line of reader) { // eslint-disable-line no-restricted-syntax
+    const url = line.trim();
+    if (URL_REGEX.test(url)) {
       index += 1;
       const id = (`0000${index}`).substr(-5);
       output.push({ id, url });
-    });
-    resolve(output);
-  });
+    }
+  }
+  return output;
 }
 
+/**
+ * Read Site list file
+ *
+ * @param filename Input filepath
+ */
 export async function readFile(filename: string): Promise<SiteInfo[]> {
   const extname = path.extname(filename);
   if (extname === '.csv') {
