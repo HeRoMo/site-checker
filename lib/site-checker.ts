@@ -62,7 +62,7 @@ export async function siteChecker(list: SiteInfo[], opts: SiteCheckerOptions) {
   }
 
   const browser = await launch(args);
-  let page = await preparePage(browser, options);
+  const page = await preparePage(browser, options);
 
   /* eslint-disable no-await-in-loop */
   // eslint-disable-next-line no-restricted-syntax
@@ -71,8 +71,6 @@ export async function siteChecker(list: SiteInfo[], opts: SiteCheckerOptions) {
     let traced = false;
     try {
       if (options.timeline) {
-        await page.close(); // renew Page object.
-        page = await preparePage(browser, options);
         const timelineFile = `timeline_${target.id}.json`;
         const timelinePath = `${outputDir}/${timelineFile}`;
         await page.tracing.start({ path: timelinePath, screenshots: true });
