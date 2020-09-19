@@ -7,6 +7,9 @@ import {
 } from 'puppeteer';
 import mkdirp from 'mkdirp';
 
+/**
+ * SiteInfo
+ */
 export interface SiteInfo {
   id: string;
   url: string;
@@ -20,6 +23,9 @@ export interface SiteInfo {
   screenshotPath?: string;
 }
 
+/**
+ * Options of SiteChecker
+ */
 export interface SiteCheckerOptions {
   credentials?: AuthOptions;
   device?: string;
@@ -32,6 +38,7 @@ export interface SiteCheckerOptions {
   viewportWidth?: number;
 }
 
+// Default values of SiteCheckerOptions
 const siteCheckerDefaultOptions: SiteCheckerOptions = {
   viewportWidth: 1440,
   viewportHeight: 900,
@@ -39,11 +46,19 @@ const siteCheckerDefaultOptions: SiteCheckerOptions = {
 };
 Object.freeze(siteCheckerDefaultOptions);
 
+/**
+ * SiteChecker
+ */
 export class SiteChecker {
   private readonly options: SiteCheckerOptions;
   private readonly outputDir: string;
   private browser: Browser|undefined;
 
+  /**
+   * Constructor
+   * @param list the list of SiteInfo
+   * @param opts SiteChecker options
+   */
   constructor(private list: SiteInfo[], opts: SiteCheckerOptions) {
     this.options = { ...siteCheckerDefaultOptions, ...opts };
     this.outputDir = '.';
@@ -53,6 +68,9 @@ export class SiteChecker {
     }
   }
 
+  /**
+   * Execute site check
+   */
   public async run(): Promise<SiteInfo[]> {
     await this.launchBrowser();
 
@@ -61,13 +79,13 @@ export class SiteChecker {
         // tracing can start only once per browser
         for (const target of this.list) { // eslint-disable-line no-restricted-syntax
           // eslint-disable-next-line no-await-in-loop
-          await this.visitTarget(target, this.outputDir);
+          await this.visitTarget(target);
         }
       } else {
         const concurrency = 10;
         let subList = [];
         for (const target of this.list) { // eslint-disable-line no-restricted-syntax
-          subList.push(this.visitTarget(target, this.outputDir));
+          subList.push(this.visitTarget(target));
           if (subList.length === concurrency) {
             // eslint-disable-next-line no-await-in-loop
             await Promise.all(subList);
@@ -82,6 +100,9 @@ export class SiteChecker {
     }
   }
 
+  /**
+   * launch browser
+   */
   private async launchBrowser(): Promise<void> {
     let args = {};
     if (process.env.NO_SANDBOX) {
@@ -90,6 +111,9 @@ export class SiteChecker {
     this.browser = await launch(args);
   }
 
+  /**
+   * Create Page instance
+   */
   private async preparePage() {
     if (this.browser === undefined) throw new Error('browser is not launched');
 
@@ -109,9 +133,12 @@ export class SiteChecker {
     return page;
   }
 
+  /**
+   * visit target site
+   * @param target target site
+   */
   private async visitTarget(
     target: SiteInfo,
-    outputDir: string,
   ): Promise<void> {
     const page = await this.preparePage();
     let response: Response | null;
@@ -119,7 +146,7 @@ export class SiteChecker {
     try {
       if (this.options.timeline) {
         const timelineFile = `timeline_${target.id}.json`;
-        const timelinePath = `${outputDir}/${timelineFile}`;
+        const timelinePath = `${this.outputDir}/${timelineFile}`;
         await page.tracing.start({ path: timelinePath, screenshots: true });
         target.timelineFile = timelineFile; // eslint-disable-line no-param-reassign
         target.timelinePath = timelinePath; // eslint-disable-line no-param-reassign
@@ -134,7 +161,7 @@ export class SiteChecker {
         target.responseUrl = response.url(); // eslint-disable-line no-param-reassign
         if (this.options.screenshot && response.ok()) {
           const screenshotFile = `screenshot_${target.id}.png`;
-          const screenshotPath = `${outputDir}/${screenshotFile}`;
+          const screenshotPath = `${this.outputDir}/${screenshotFile}`;
           await page.screenshot({ path: screenshotPath, fullPage: this.options.fullPage, type: 'png' });
           target.screenshotFile = screenshotFile; // eslint-disable-line no-param-reassign
           target.screenshotPath = screenshotPath; // eslint-disable-line no-param-reassign
