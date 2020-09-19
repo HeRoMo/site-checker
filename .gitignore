@@ -12,3 +12,4 @@ samples/**/*.html
 *.tgz
 package/
 coverage/
+tmp/
