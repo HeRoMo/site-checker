@@ -105,11 +105,25 @@ export async function siteChecker(list: SiteInfo[], opts: SiteCheckerOptions) {
 
   const browser = await launch(args);
 
-  /* eslint-disable no-await-in-loop */
-  for (const target of list) { // eslint-disable-line no-restricted-syntax
-    await visitTarget(browser, options, target, outputDir);
+  if (options.timeline) {
+    // tracing can start only once per browser
+    for (const target of list) { // eslint-disable-line no-restricted-syntax
+      // eslint-disable-next-line no-await-in-loop
+      await visitTarget(browser, options, target, outputDir);
+    }
+  } else {
+    const concurrency = 10;
+    let subList = [];
+    for (const target of list) { // eslint-disable-line no-restricted-syntax
+      subList.push(visitTarget(browser, options, target, outputDir));
+      if (subList.length === concurrency) {
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(subList);
+        subList = [];
+      }
+    }
+    if (subList.length > 0) await Promise.all(subList);
   }
-  /* eslint-enable no-await-in-loop */
 
   browser.close();
   return list;
