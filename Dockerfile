@@ -14,8 +14,11 @@ RUN apt-get update \
                 fonts-kacst \
                 fonts-freefont-ttf \
                 libxss1 \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 RUN yarn global add site-checker
 
 RUN mkdir -p /output
