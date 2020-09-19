@@ -48,6 +48,48 @@ async function preparePage(browser: Browser, options: PreparePageOptions) {
   return page;
 }
 
+async function visitTarget(
+  browser: Browser,
+  options: SiteCheckerOptions,
+  target: SiteInfo,
+  outputDir: string,
+): Promise<void> {
+  const page = await preparePage(browser, options);
+  let response: Response | null;
+  let traced = false;
+  try {
+    if (options.timeline) {
+      const timelineFile = `timeline_${target.id}.json`;
+      const timelinePath = `${outputDir}/${timelineFile}`;
+      await page.tracing.start({ path: timelinePath, screenshots: true });
+      target.timelineFile = timelineFile; // eslint-disable-line no-param-reassign
+      target.timelinePath = timelinePath; // eslint-disable-line no-param-reassign
+      traced = true;
+    }
+
+    response = await page.goto(target.url);
+
+    if (response) {
+      target.status = response.status(); // eslint-disable-line no-param-reassign
+      target.title = await page.title(); // eslint-disable-line no-param-reassign
+      target.responseUrl = response.url(); // eslint-disable-line no-param-reassign
+      if (options.screenshot && response.ok()) {
+        const screenshotFile = `screenshot_${target.id}.png`;
+        const screenshotPath = `${outputDir}/${screenshotFile}`;
+        await page.screenshot({ path: screenshotPath, fullPage: options.fullPage, type: 'png' });
+        target.screenshotFile = screenshotFile; // eslint-disable-line no-param-reassign
+        target.screenshotPath = screenshotPath; // eslint-disable-line no-param-reassign
+      }
+    }
+  } catch (error) {
+    target.status = 'ERROR'; // eslint-disable-line no-param-reassign
+    target.errorMessage = error.toString(); // eslint-disable-line no-param-reassign
+  } finally {
+    if (traced) await page.tracing.stop();
+    await page.close();
+  }
+}
+
 export async function siteChecker(list: SiteInfo[], opts: SiteCheckerOptions) {
   const options = { ...siteCheckerDefaultOptions, ...opts };
   let outputDir = '.';
@@ -62,43 +104,10 @@ export async function siteChecker(list: SiteInfo[], opts: SiteCheckerOptions) {
   }
 
   const browser = await launch(args);
-  const page = await preparePage(browser, options);
 
   /* eslint-disable no-await-in-loop */
-  // eslint-disable-next-line no-restricted-syntax
-  for (const target of list) {
-    let response: Response|null;
-    let traced = false;
-    try {
-      if (options.timeline) {
-        const timelineFile = `timeline_${target.id}.json`;
-        const timelinePath = `${outputDir}/${timelineFile}`;
-        await page.tracing.start({ path: timelinePath, screenshots: true });
-        target.timelineFile = timelineFile; // eslint-disable-line no-param-reassign
-        target.timelinePath = timelinePath; // eslint-disable-line no-param-reassign
-        traced = true;
-      }
-
-      response = await page.goto(target.url);
-
-      if (response) {
-        target.status = response.status(); // eslint-disable-line no-param-reassign
-        target.title = await page.title(); // eslint-disable-line no-param-reassign
-        target.responseUrl = response.url(); // eslint-disable-line no-param-reassign
-        if (options.screenshot && response.ok()) {
-          const screenshotFile = `screenshot_${target.id}.png`;
-          const screenshotPath = `${outputDir}/${screenshotFile}`;
-          await page.screenshot({ path: screenshotPath, fullPage: options.fullPage, type: 'png' });
-          target.screenshotFile = screenshotFile; // eslint-disable-line no-param-reassign
-          target.screenshotPath = screenshotPath; // eslint-disable-line no-param-reassign
-        }
-      }
-    } catch (error) {
-      target.status = 'ERROR'; // eslint-disable-line no-param-reassign
-      target.errorMessage = error.toString(); // eslint-disable-line no-param-reassign
-    } finally {
-      if (traced) await page.tracing.stop();
-    }
+  for (const target of list) { // eslint-disable-line no-restricted-syntax
+    await visitTarget(browser, options, target, outputDir);
   }
   /* eslint-enable no-await-in-loop */
 
