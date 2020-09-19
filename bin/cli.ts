@@ -6,7 +6,7 @@ import path from 'path';
 import * as yargs from 'yargs';
 
 import { readFile } from '../lib/read_file';
-import { siteChecker, InputOpts } from '../index';
+import { siteChecker, SiteCheckerOptions } from '../index';
 import { json2html } from '../lib/json2html';
 
 function isString(str: any): str is 'string' {
@@ -112,7 +112,7 @@ const { argv } = yargs
   .alias('help', 'h');
 
 /* Main */
-const option: InputOpts = {};
+const option: SiteCheckerOptions = {};
 if (typeof argv.output === 'string') option.outputDir = argv.output;
 if (typeof argv.device === 'string') option.device = argv.device;
 option.fullPage = argv.fullpage;

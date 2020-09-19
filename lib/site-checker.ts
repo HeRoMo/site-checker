@@ -9,37 +9,34 @@ import mkdirp from 'mkdirp';
 
 import { SiteInfo } from './read_file';
 
-export interface InputOpts {
-  outputDir?: string;
+interface PreparePageOptions {
+  credentials?: AuthOptions;
   device?: string;
+  noCache?: boolean;
+  viewportHeight?: number;
+  viewportWidth?: number;
+}
+
+export interface SiteCheckerOptions extends PreparePageOptions {
   fullPage?: boolean;
-  noCache?: boolean;
-  timeline?: boolean;
+  outputDir?: string;
   screenshot?: boolean;
-  credentials?: AuthOptions;
+  timeline?: boolean;
 }
 
-interface preparePageOptions {
-  viewportWidth: number;
-  viewportHeight: number;
-  device?: string;
-  credentials?: AuthOptions;
-  noCache?: boolean;
-}
-
-const defaultOptions = {
+const siteCheckerDefaultOptions: SiteCheckerOptions = {
   viewportWidth: 1440,
   viewportHeight: 900,
   fullPage: false,
 };
-Object.freeze(defaultOptions);
+Object.freeze(siteCheckerDefaultOptions);
 
-async function preparePage(browser: Browser, options: preparePageOptions) {
+async function preparePage(browser: Browser, options: PreparePageOptions) {
   const page = await browser.newPage();
   await page.setCacheEnabled(!options.noCache);
   if (options.device) {
     await page.emulate(devices[options.device]);
-  } else {
+  } else if (options.viewportWidth && options.viewportHeight) {
     await page.setViewport({
       width: options.viewportWidth,
       height: options.viewportHeight,
@@ -51,8 +48,8 @@ async function preparePage(browser: Browser, options: preparePageOptions) {
   return page;
 }
 
-export async function siteChecker(list: SiteInfo[], opts: InputOpts) {
-  const options = { ...defaultOptions, ...opts };
+export async function siteChecker(list: SiteInfo[], opts: SiteCheckerOptions) {
+  const options = { ...siteCheckerDefaultOptions, ...opts };
   let outputDir = '.';
   if (options.outputDir) {
     mkdirp.sync(options.outputDir);

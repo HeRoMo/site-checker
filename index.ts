@@ -1,3 +1,3 @@
-import { siteChecker, InputOpts } from './lib/site-checker';
+import { siteChecker, SiteCheckerOptions } from './lib/site-checker';
 
-export { siteChecker, InputOpts };
+export { siteChecker, SiteCheckerOptions };
