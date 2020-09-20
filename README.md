@@ -15,7 +15,7 @@ npm install -g site-checker
 You can use docker image of site-checker.
 
 ```
-docker run --rm -v <output dir of host>:/output:rw hero/site-checker -u https://github.com/HeRoMo/site-checker
+docker run --rm -v <output dir of host>:/output:rw ghcr.io/heromo/site-checker:develop -u https://github.com/HeRoMo/site-checker
 ```
 
 ## Options
@@ -24,15 +24,15 @@ Options:
   -u, --url         set the url which is checked and captured
   -l, --list        set the filepath of URL list.                       [string]
   -o, --output      set output dir name                                 [string]
-  --html            output HTML file                                   [boolean]
+      --html        output HTML file                                   [boolean]
   -d, --device      emulate device name                                 [string]
   -f, --fullpage    capture whole page                                 [boolean]
-  --nocache         disable browser cache                              [boolean]
-  --timeline        access url with tracing timeline.                  [boolean]
+      --nocache     disable browser cache                              [boolean]
+      --timeline    access url with tracing timeline.                  [boolean]
   -s, --screenshot  take a screenshot at access successfully.
                                                        [boolean] [default: true]
-  --auth            basic auth credencial. <username>:<password>        [string]
-  --version         Show version number                                [boolean]
+      --auth        basic auth credencial. <username>:<password>        [string]
+      --version     Show version number                                [boolean]
   -h, --help        Show help                                          [boolean]
 ```
 
@@ -77,7 +77,7 @@ site-checker outputs *timelime_XXXXX.json* file which
 is compatible to Performance (a.k.a Timeline) of Chrome Dev Tool.
 
 ```bash
-$ site-checker -l url-list.csv --timeline -d 'iPhone 6 Plus'
+$ site-checker -l url-list.csv --timeline -d 'iPhone X'
 ```
 
 You can watch the result by using Chrome Dev Tool or [DevTools Timeline Viewer](https://chromedevtools.github.io/timeline-viewer/)
