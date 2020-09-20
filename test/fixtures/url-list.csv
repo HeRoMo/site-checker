@@ -1,0 +1,7 @@
+# CSV file sample
+id,url,memo
+10000,https://github.com, 'git repository service'
+10001,htt://www.google.com/, 'invalid url'
+10002,https://www.npmjs.com/, 'npm site'
+10003,https://www.google.com/, 'web search service'
+10004,https://www.amazon.com/, 'EC site'

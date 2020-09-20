@@ -2,9 +2,14 @@ node_modules/
 doc/
 .DS_Store
 Thumbs.db
+dist
 
 *.png
 *.log
 samples/**/*.json
 samples/**/*.html
 /*.csv
+*.tgz
+package/
+coverage/
+tmp/
