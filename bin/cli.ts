@@ -3,11 +3,13 @@
 import { devices, AuthOptions } from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
-import * as yargs from 'yargs';
+import yargs = require('yargs');
 
+/* eslint-disable import/first */
 import { readFile } from '../lib/readFile';
 import { siteChecker, SiteCheckerOptions } from '../index';
 import { json2html } from '../lib/json2html';
+/* eslint-enable import/first */
 
 const urlRegexp = new RegExp("https?://[\\w!\\?/\\+\\-_~=;\\.,\\*&@#\\$%\\(\\)'\\[\\]]+");
 
@@ -50,9 +52,11 @@ interface CommandOptions {
 
 /**
  * parse input options
+ *
+ * @param args process.argv
  */
-function parseOptions(): CommandOptions {
-  const { argv } = yargs
+export function parseOptions(args: string[]): CommandOptions {
+  const { argv } = yargs(args)
     .option('url', {
       alias: 'u',
       describe: 'set the url which is checked and captured',
@@ -199,7 +203,7 @@ async function executeForUrl(url: string, options: SiteCheckerOptions) {
  *
  * @param argv commnad options
  */
-async function runCommand(argv: CommandOptions) {
+export async function runCommand(argv: CommandOptions) {
   const option: SiteCheckerOptions = {
     fullPage: argv.fullpage,
     noCache: argv.nocache,
@@ -223,5 +227,9 @@ async function runCommand(argv: CommandOptions) {
 }
 
 // Execute command
-const argv = parseOptions();
-runCommand(argv);
+if (require.main === module) {
+  (async () => {
+    const argv = parseOptions(process.argv);
+    runCommand(argv);
+  })();
+}
