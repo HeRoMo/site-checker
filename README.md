@@ -9,13 +9,18 @@ Japanese Guide is [here](https://github.com/HeRoMo/site-checker/wiki/%E4%BD%BF%E
 ## Installation
 
 ```
-npm install -g site-checker
+yarn global add site-checker
 ```
+
+if chromium installed by puppeteer fails to launch, some dependencies are not enough.
+see [Chrome headless doesn't launch on UNIX](https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix)
+
+## Use via docker
 
 You can use docker image of site-checker.
 
 ```
-docker run --rm -v <output dir of host>:/output:rw ghcr.io/heromo/site-checker:develop -u https://github.com/HeRoMo/site-checker
+docker run --rm -v <output dir of host>:/output:rw ghcr.io/heromo/site-checker:latest -u https://github.com/HeRoMo/site-checker
 ```
 
 ## Options
